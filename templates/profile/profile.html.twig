@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil - E-Shop EHEI{% endblock %}
+
+{% block body %}
+<div class="profile-card" id="profile-container">
+    <div class="profile-avatar" id="profile-avatar-icon">
+        {{ user.email|first|upper }}
+    </div>
+    
+    <h1 class="profile-email" id="profile-user-email">Bienvenue {{ user.email }}</h1>
+    <div class="profile-role" id="profile-user-role">
+        Rôle : {{ user.roles|join(', ') }}
+    </div>
+
+    <div style="width: 100%; text-align: left; margin-top: 2rem;" id="profile-dashboard">
+        <h3 style="margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;" id="dashboard-title">
+            Historique des commandes (Simulation)
+        </h3>
+        
+        <table class="cart-table" style="font-size: 0.9rem;" id="orders-table">
+            <thead>
+                <tr>
+                    <th>Commande</th>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#CMD-2026-001</td>
+                    <td>22 Mai 2026</td>
+                    <td>14,500 DH</td>
+                    <td><span style="color: var(--accent-emerald); font-weight: 600;">Livré</span></td>
+                </tr>
+                <tr>
+                    <td>#CMD-2026-002</td>
+                    <td>18 Mai 2026</td>
+                    <td>3,200 DH</td>
+                    <td><span style="color: var(--accent-emerald); font-weight: 600;">Livré</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ path('home') }}" class="cta-button" style="margin-top: 2rem;" id="profile-back-home-btn">
+        Retourner à la boutique
+    </a>
+</div>
+{% endblock %}

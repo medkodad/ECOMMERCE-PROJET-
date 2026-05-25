@@ -1,17 +1,198 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EHEI Shop{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #111118;
+            --bg3: #1a1a24;
+            --card: #14141e;
+            --border: #2a2a3a;
+            --accent: #6c63ff;
+            --accent2: #ff6584;
+            --accent3: #43e97b;
+            --text: #f0f0f5;
+            --muted: #888899;
+            --radius: 16px;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+        a { color:inherit; text-decoration:none; }
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+        /* NAV */
+        nav {
+            position:sticky; top:0; z-index:100;
+            background:rgba(10,10,15,0.85); backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--border);
+            padding:0 2rem; height:70px;
+            display:flex; align-items:center; gap:2rem;
+        }
+        .nav-brand {
+            font-family:'Space Grotesk',sans-serif;
+            font-size:1.4rem; font-weight:700;
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            background-clip:text;
+        }
+        .nav-links { display:flex; gap:1.5rem; flex:1; }
+        .nav-links a {
+            color:var(--muted); font-size:.9rem; font-weight:500;
+            padding:.4rem .8rem; border-radius:8px;
+            transition:all .2s;
+        }
+        .nav-links a:hover { color:var(--text); background:var(--bg3); }
+        .nav-right { display:flex; align-items:center; gap:1rem; margin-left:auto; }
+        .cart-btn {
+            display:flex; align-items:center; gap:.5rem;
+            background:var(--bg3); border:1px solid var(--border);
+            padding:.5rem 1rem; border-radius:10px;
+            font-size:.9rem; cursor:pointer; transition:all .2s;
+        }
+        .cart-btn:hover { border-color:var(--accent); color:var(--accent); }
+        .cart-count {
+            background:var(--accent); color:#fff;
+            width:20px; height:20px; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            font-size:.7rem; font-weight:700;
+        }
+        .btn-primary {
+            background:linear-gradient(135deg,var(--accent),#8b5cf6);
+            color:#fff; padding:.5rem 1.2rem; border-radius:10px;
+            font-size:.85rem; font-weight:600; border:none; cursor:pointer;
+            transition:all .2s; display:inline-flex; align-items:center; gap:.5rem;
+        }
+        .btn-primary:hover { transform:translateY(-1px); box-shadow:0 8px 25px rgba(108,99,255,.4); }
+        .btn-outline {
+            background:transparent; color:var(--accent);
+            border:1px solid var(--accent); padding:.5rem 1.2rem;
+            border-radius:10px; font-size:.85rem; cursor:pointer;
+            transition:all .2s; display:inline-flex; align-items:center; gap:.5rem;
+        }
+        .btn-outline:hover { background:var(--accent); color:#fff; }
+
+        /* FLASH */
+        .flash-container { padding:.5rem 2rem; }
+        .flash { padding:.8rem 1.2rem; border-radius:10px; margin:.3rem 0; font-size:.9rem; }
+        .flash-success { background:rgba(67,233,123,.1); border:1px solid rgba(67,233,123,.3); color:var(--accent3); }
+        .flash-danger  { background:rgba(255,101,132,.1); border:1px solid rgba(255,101,132,.3); color:var(--accent2); }
+        .flash-info    { background:rgba(108,99,255,.1);  border:1px solid rgba(108,99,255,.3);  color:var(--accent); }
+
+        /* MAIN */
+        main { max-width:1400px; margin:0 auto; padding:2rem; }
+
+        /* CARDS */
+        .card {
+            background:var(--card); border:1px solid var(--border);
+            border-radius:var(--radius); overflow:hidden;
+            transition:all .3s;
+        }
+        .card:hover { border-color:var(--accent); transform:translateY(-4px); box-shadow:0 20px 40px rgba(0,0,0,.5); }
+
+        /* PRODUCT CARD */
+        .product-card { cursor:pointer; }
+        .product-img {
+            width:100%; aspect-ratio:1; object-fit:cover;
+            background:var(--bg3);
+            display:flex; align-items:center; justify-content:center;
+            font-size:4rem; color:var(--muted);
+        }
+        .product-info { padding:1.2rem; }
+        .product-name { font-family:'Space Grotesk',sans-serif; font-weight:600; margin-bottom:.3rem; }
+        .product-cat  { font-size:.8rem; color:var(--muted); margin-bottom:.8rem; }
+        .product-price { font-size:1.3rem; font-weight:700; color:var(--accent); }
+        .product-footer { padding:0 1.2rem 1.2rem; display:flex; gap:.5rem; }
+
+        /* GRID */
+        .grid-4 { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.5rem; }
+        .grid-3 { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.5rem; }
+        .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; }
+
+        /* SECTION HEADER */
+        .section-header { margin-bottom:2rem; }
+        .section-title {
+            font-family:'Space Grotesk',sans-serif;
+            font-size:1.8rem; font-weight:700;
+            margin-bottom:.5rem;
+        }
+        .section-subtitle { color:var(--muted); font-size:.95rem; }
+
+        /* FOOTER */
+        footer {
+            margin-top:4rem; padding:2rem;
+            border-top:1px solid var(--border);
+            text-align:center; color:var(--muted); font-size:.85rem;
+        }
+
+        /* BADGE */
+        .badge {
+            display:inline-block; padding:.2rem .7rem;
+            border-radius:6px; font-size:.75rem; font-weight:600;
+        }
+        .badge-purple { background:rgba(108,99,255,.2); color:var(--accent); border:1px solid rgba(108,99,255,.3); }
+        .badge-green  { background:rgba(67,233,123,.2); color:var(--accent3); border:1px solid rgba(67,233,123,.3); }
+        .badge-pink   { background:rgba(255,101,132,.2); color:var(--accent2); border:1px solid rgba(255,101,132,.3); }
+
+        /* FORM */
+        .form-group { margin-bottom:1.2rem; }
+        .form-group label { display:block; font-size:.85rem; color:var(--muted); margin-bottom:.4rem; }
+        .form-group input, .form-group select, .form-group textarea {
+            width:100%; background:var(--bg3); border:1px solid var(--border);
+            color:var(--text); padding:.8rem 1rem; border-radius:10px;
+            font-size:.9rem; outline:none; transition:border .2s;
+        }
+        .form-group input:focus { border-color:var(--accent); }
+        .form-error { font-size:.8rem; color:var(--accent2); margin-top:.3rem; }
+
+        /* TABLE */
+        table { width:100%; border-collapse:collapse; }
+        th { text-align:left; padding:1rem; color:var(--muted); font-size:.85rem; font-weight:500; border-bottom:1px solid var(--border); }
+        td { padding:1rem; border-bottom:1px solid rgba(255,255,255,.05); }
+        tr:last-child td { border:none; }
+    </style>
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<nav>
+    <a href="{{ path('home') }}" class="nav-brand">⚡ EHEI Shop</a>
+    <div class="nav-links">
+        <a href="{{ path('home') }}">Accueil</a>
+        <a href="{{ path('categories') }}">Catégories</a>
+    </div>
+    <div class="nav-right">
+        <form action="{{ path('product_search') }}" method="GET" style="display:flex;gap:.5rem">
+            <input type="text" name="q" placeholder="Rechercher..." style="background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.5rem 1rem;border-radius:10px;outline:none;font-size:.85rem;width:200px">
+        </form>
+        <a href="{{ path('cart_show') }}" class="cart-btn">
+            🛒 <span class="cart-count">0</span>
+        </a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin') }}" class="btn-outline" style="border-color:var(--accent3);color:var(--accent3)">⚙️ Administration</a>
+        {% endif %}
+        {% if app.user %}
+            <a href="{{ path('profile') }}" class="btn-outline">👤 {{ app.user.email }}</a>
+            <a href="{{ path('app_logout') }}" class="btn-primary">Déconnexion</a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="btn-outline">Connexion</a>
+            <a href="{{ path('app_register') }}" class="btn-primary">S'inscrire</a>
+        {% endif %}
+    </div>
+</nav>
+
+<div class="flash-container">
+    {% for msg in app.flashes('success') %}<div class="flash flash-success">{{ msg }}</div>{% endfor %}
+    {% for msg in app.flashes('danger') %}<div class="flash flash-danger">{{ msg }}</div>{% endfor %}
+    {% for msg in app.flashes('info') %}<div class="flash flash-info">{{ msg }}</div>{% endfor %}
+</div>
+
+<main>{% block body %}{% endblock %}</main>
+
+<footer>
+    <p>© 2026 EHEI Shop · Projet Symfony · Architecture SOLID</p>
+</footer>
+{% block javascripts %}{% endblock %}
+</body>
 </html>

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ product.name }}{% endblock %}
+{% block body %}
+<div style="max-width:900px;margin:0 auto">
+    <a href="javascript:history.back()" style="color:var(--muted);font-size:.9rem;display:inline-flex;align-items:center;gap:.3rem;margin-bottom:1.5rem">← Retour</a>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start">
+        <div class="card" style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:8rem">
+            {{ product.image ? '<img src="'~product.image~'" style="width:100%;height:100%;object-fit:cover">' : '🛍️' }}
+        </div>
+        <div>
+            {% if product.category %}
+            <span class="badge badge-purple" style="margin-bottom:1rem">{{ product.category.name }}</span>
+            {% endif %}
+            <h1 style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;margin-bottom:1rem">{{ product.name }}</h1>
+            <p style="color:var(--muted);line-height:1.7;margin-bottom:2rem">{{ product.description }}</p>
+            <div style="font-size:2.5rem;font-weight:700;color:var(--accent);margin-bottom:1.5rem">
+                {{ product.price|number_format(2, '.', ',') }} <span style="font-size:1.2rem">MAD</span>
+            </div>
+            {% if product.stock %}
+            <div style="margin-bottom:1.5rem">
+                <span class="badge badge-green">✅ En stock ({{ product.stock }})</span>
+            </div>
+            {% endif %}
+            <form action="{{ path('cart_add', {id: product.id}) }}" method="POST" style="display:flex;gap:1rem;align-items:center">
+                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock ?? 99 }}"
+                    style="width:80px;background:var(--bg3);border:1px solid var(--border);color:var(--text);padding:.8rem;border-radius:10px;text-align:center;font-size:1rem">
+                <button type="submit" class="btn-primary" style="flex:1;justify-content:center;padding:.8rem;font-size:1rem">
+                    🛒 Ajouter au panier
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

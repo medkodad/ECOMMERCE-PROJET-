@@ -1,0 +1,31 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Dashboard{% endblock %}
+
+{% block main %}
+    <div class="alert alert-success" style="margin-bottom: 2rem;">
+        Bienvenue sur le Dashboard d'Administration EHEI Shop !
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid #4a90e2;">
+            <div style="color: #666; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Catégories</div>
+            <div style="font-size: 2.5rem; font-weight: bold; color: #333; margin-top: 0.5rem;">{{ stats.categories }}</div>
+        </div>
+
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid #50e3c2;">
+            <div style="color: #666; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Produits</div>
+            <div style="font-size: 2.5rem; font-weight: bold; color: #333; margin-top: 0.5rem;">{{ stats.products }}</div>
+        </div>
+
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid #f5a623;">
+            <div style="color: #666; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Commandes</div>
+            <div style="font-size: 2.5rem; font-weight: bold; color: #333; margin-top: 0.5rem;">{{ stats.orders }}</div>
+        </div>
+
+        <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid #d0021b;">
+            <div style="color: #666; font-size: 0.9rem; text-transform: uppercase; font-weight: bold;">Utilisateurs</div>
+            <div style="font-size: 2.5rem; font-weight: bold; color: #333; margin-top: 0.5rem;">{{ stats.users }}</div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} - E-Shop EHEI{% endblock %}
+
+{% block body %}
+<div class="product-detail-container" id="details-container-{{ product.id }}">
+    <div class="product-gallery" id="details-gallery-{{ product.id }}">
+        {% if product.category %}
+            {% if product.category.name|lower == 'ordinateurs' or product.category.name|lower == 'laptops' %}💻
+            {% elseif product.category.name|lower == 'téléphones' or product.category.name|lower == 'smartphones' or product.category.name|lower == 'phones' %}📱
+            {% elseif product.category.name|lower == 'accessoires' %}🎧
+            {% else %}📦
+            {% endif %}
+        {% else %}
+            📦
+        {% endif %}
+    </div>
+
+    <div class="product-info-block" id="details-info-{{ product.id }}">
+        <span class="product-category-tag" id="details-tag-{{ product.id }}">
+            {{ product.category ? product.category.name : 'Général' }}
+        </span>
+        
+        <h1 class="product-title" id="details-title-{{ product.id }}">{{ product.name }}</h1>
+        
+        <div class="product-price" id="details-price-{{ product.id }}">
+            {{ product.price|number_format(2, ',', ' ') }} DH
+        </div>
+
+        <p class="product-desc" id="details-desc-{{ product.id }}">{{ product.description }}</p>
+
+        <div style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;" id="details-cart-action-{{ product.id }}">
+            {{ form_start(form, {'action': path('cart_add', {'id': product.id}), 'method': 'POST', 'attr': {'id': 'add-to-cart-detail-form'}}) }}
+                <div class="form-group" style="max-width: 150px; margin-bottom: 1.5rem;" id="group-quantity">
+                    {{ form_label(form.quantity, "Quantité") }}
+                    {{ form_widget(form.quantity, {'attr': {'class': 'form-control', 'min': 1}}) }}
+                    {{ form_errors(form.quantity) }}
+                </div>
+                
+                <button type="submit" class="cta-button" style="padding: 0.8rem 2rem;" id="details-submit-btn">
+                    🛒 Ajouter au panier
+                </button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

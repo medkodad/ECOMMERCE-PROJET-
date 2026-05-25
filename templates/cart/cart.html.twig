@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier - E-Shop EHEI{% endblock %}
+
+{% block body %}
+<h1 class="section-title" id="cart-page-title">Votre Panier</h1>
+
+{% if cart.items is empty %}
+    <div class="cart-container" id="cart-empty-container">
+        <div class="cart-empty" id="cart-empty-message">
+            <div class="cart-empty-icon">🛒</div>
+            <h2 style="margin-bottom: 1rem;">Votre panier est vide !</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">Parcourez notre catalogue pour ajouter des articles.</p>
+            <a href="{{ path('home') }}" class="cta-button" id="cart-empty-shop-btn">Retourner à la boutique</a>
+        </div>
+    </div>
+{% else %}
+    <div class="cart-container" id="cart-items-container">
+        <table class="cart-table" id="cart-table-element">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Prix unitaire</th>
+                    <th>Quantité</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items %}
+                    <tr id="cart-item-row-{{ item.product.id }}">
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <span style="font-size: 1.8rem;" id="cart-item-icon-{{ item.product.id }}">
+                                    {% if item.product.category %}
+                                        {% if item.product.category.name|lower == 'ordinateurs' or item.product.category.name|lower == 'laptops' %}💻
+                                        {% elseif item.product.category.name|lower == 'téléphones' or item.product.category.name|lower == 'smartphones' or item.product.category.name|lower == 'phones' %}📱
+                                        {% elseif item.product.category.name|lower == 'accessoires' %}🎧
+                                        {% else %}📦
+                                        {% endif %}
+                                    {% else %}
+                                        📦
+                                    {% endif %}
+                                </span>
+                                <span class="cart-item-title" id="cart-item-title-{{ item.product.id }}">{{ item.product.name }}</span>
+                            </div>
+                        </td>
+                        <td id="cart-item-price-{{ item.product.id }}">{{ item.product.price|number_format(2, ',', ' ') }} DH</td>
+                        <td class="cart-item-quantity" id="cart-item-qty-{{ item.product.id }}">{{ item.quantity }}</td>
+                        <td style="font-weight: 600;" id="cart-item-total-{{ item.product.id }}">{{ (item.product.price * item.quantity)|number_format(2, ',', ' ') }} DH</td>
+                        <td>
+                            <a href="{{ path('cart_remove', {'id': item.product.id}) }}" class="btn-secondary btn-danger" style="padding: 0.4rem 1rem; font-size: 0.85rem;" id="cart-remove-btn-{{ item.product.id }}">
+                                Retirer
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="cart-summary" id="cart-summary-block">
+            <div>
+                <a href="{{ path('cart_clear') }}" class="btn-secondary" id="cart-clear-btn">
+                    🗑️ Vider le panier
+                </a>
+            </div>
+            <div style="text-align: right;" id="cart-totals">
+                <div class="cart-total-label">Total du panier :</div>
+                <div class="cart-total-price" id="cart-final-price">{{ totalPrice|number_format(2, ',', ' ') }} DH</div>
+                
+                <button class="cta-button" style="margin-top: 1.5rem; padding: 0.8rem 2rem; font-size: 1.1rem;" onclick="alert('Commande validée ! (Simulation)')" id="cart-checkout-btn">
+                    Procéder au paiement
+                </button>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

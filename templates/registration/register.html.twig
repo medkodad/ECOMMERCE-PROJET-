@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - E-Shop EHEI{% endblock %}
+
+{% block body %}
+<div class="form-card" id="register-container">
+    <h1 class="form-title" id="register-header">Créer un compte</h1>
+
+    {{ form_start(registrationForm, {'attr': {'id': 'register-form'}}) }}
+        <div class="form-group" id="group-reg-email">
+            {{ form_label(registrationForm.email, "Adresse Email") }}
+            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'exemple@domain.com'}}) }}
+            {{ form_errors(registrationForm.email) }}
+        </div>
+
+        <div class="form-group" id="group-reg-password-first">
+            {{ form_label(registrationForm.plainPassword.first, "Mot de passe") }}
+            {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': '••••••••'}}) }}
+            {{ form_errors(registrationForm.plainPassword.first) }}
+        </div>
+
+        <div class="form-group" id="group-reg-password-second">
+            {{ form_label(registrationForm.plainPassword.second, "Confirmation du mot de passe") }}
+            {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': '••••••••'}}) }}
+            {{ form_errors(registrationForm.plainPassword.second) }}
+        </div>
+
+        <button type="submit" class="cta-button" style="width: 100%; margin-top: 1.5rem;" id="register-submit-btn">
+            S'inscrire
+        </button>
+
+        <div class="form-footer" id="register-login-link">
+            Déjà inscrit ? <a href="{{ path('app_login') }}">Connectez-vous ici</a>
+        </div>
+    {{ form_end(registrationForm) }}
+</div>
+{% endblock %}

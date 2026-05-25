@@ -1,0 +1,47 @@
+/* CSS variables for premium dark theme and glassmorphism */
+:root {
+  --clr-bg: #0a0a0a;
+  --clr-surface: rgba(255,255,255,0.08);
+  --clr-primary: hsl(210, 80%, 55%);
+  --clr-secondary: hsl(340, 70%, 55%);
+  --clr-accent: hsl(50, 90%, 60%);
+  --clr-text: #f1f1f1;
+}
+
+/* Light mode overrides */
+body.light {
+  --clr-bg: #f7f7f7;
+  --clr-text: #222;
+  --clr-surface: rgba(255,255,255,0.8);
+}
+
+/* Typography */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=Inter:wght@400;500;700&display=swap');
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+}
+
+/* Glass helper */
+.glass {
+  background: var(--clr-surface);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform .15s ease, background .2s;
+}
+.btn:hover { transform: scale(1.04); }
+.btn-primary { background: var(--clr-primary); color: #fff; }
+.btn-primary:hover { background: hsl(210,80%,48%); }
+.btn-secondary { background: var(--clr-secondary); color: #fff; }

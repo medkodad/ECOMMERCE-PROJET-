@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inscription{% endblock %}
+{% block body %}
+<div style="max-width:420px;margin:3rem auto">
+    <div class="card" style="padding:2rem">
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:1.8rem;font-weight:700;margin-bottom:.5rem;text-align:center">Créer un compte</h1>
+        <p style="color:var(--muted);text-align:center;margin-bottom:2rem">Rejoignez-nous aujourd'hui</p>
+
+        {{ form_start(form) }}
+        <div class="form-group">
+            {{ form_label(form.fullName) }}
+            {{ form_widget(form.fullName) }}
+            <div class="form-error">{{ form_errors(form.fullName) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+            <div class="form-error">{{ form_errors(form.email) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first) }}
+            <div class="form-error">{{ form_errors(form.plainPassword.first) }}</div>
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second) }}
+            <div class="form-error">{{ form_errors(form.plainPassword.second) }}</div>
+        </div>
+
+        <button class="btn-primary" type="submit" style="width:100%;justify-content:center;padding:.8rem;font-size:1rem;margin-top:1rem">
+            S'inscrire
+        </button>
+        {{ form_end(form) }}
+        
+        <div style="text-align:center;margin-top:1.5rem;font-size:.9rem;color:var(--muted)">
+            Déjà inscrit ? <a href="{{ path('app_login') }}" style="color:var(--accent)">Se connecter</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

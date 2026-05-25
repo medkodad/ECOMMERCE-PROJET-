@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits - {{ category.name }} - E-Shop EHEI{% endblock %}
+
+{% block body %}
+<div style="margin-bottom: 2rem;" id="category-filter-header">
+    <a href="{{ path('browse_categories') }}" class="btn-secondary" style="margin-bottom: 1.5rem;" id="back-categories-btn">
+        ← Toutes les catégories
+    </a>
+    <h1 class="section-title" id="category-filter-title">Catégorie : {{ category.name }}</h1>
+</div>
+
+{% if products is empty %}
+    <div class="card" style="text-align: center; padding: 3rem;" id="no-products-category-card">
+        <p style="color: var(--text-secondary);">Aucun produit disponible dans cette catégorie pour le moment.</p>
+    </div>
+{% else %}
+    <div class="grid" id="category-products-grid">
+        {% for product in products %}
+            <div class="card" id="product-card-{{ product.id }}">
+                <div class="card-img-placeholder">
+                    {% if category.name|lower == 'ordinateurs' or category.name|lower == 'laptops' %}💻
+                    {% elseif category.name|lower == 'téléphones' or category.name|lower == 'smartphones' or category.name|lower == 'phones' %}📱
+                    {% elseif category.name|lower == 'accessoires' %}🎧
+                    {% else %}📦
+                    {% endif %}
+                    <span class="card-tag">{{ category.name }}</span>
+                </div>
+                
+                <a href="{{ path('product_details', {'id': product.id}) }}" class="card-title" id="product-title-{{ product.id }}">{{ product.name }}</a>
+                <p class="card-desc">{{ product.description|slice(0, 100) }}...</p>
+                
+                <div class="card-footer">
+                    <span class="card-price">{{ product.price|number_format(2, ',', ' ') }} DH</span>
+                    <form action="{{ path('cart_add', {'id': product.id}) }}" method="POST" style="display: inline;" id="add-to-cart-form-{{ product.id }}">
+                        <button type="submit" class="cta-button" style="padding: 0.5rem 1rem; font-size: 0.9rem;" id="add-btn-{{ product.id }}">
+                            🛒 +
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

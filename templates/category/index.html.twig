@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Catégories{% endblock %}
+{% block body %}
+<div class="section-header">
+    <h1 class="section-title">Toutes les catégories</h1>
+    <p class="section-subtitle">{{ categories|length }} catégories disponibles</p>
+</div>
+<div class="grid-3">
+    {% for cat in categories %}
+    <a href="{{ path('category_products', {id: cat.id}) }}" class="card" style="padding:2rem">
+        <div style="font-size:3rem;margin-bottom:1rem">{{ cat.icon ?? '📦' }}</div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:600;margin-bottom:.5rem">{{ cat.name }}</h3>
+        {% if cat.description %}<p style="color:var(--muted);font-size:.9rem">{{ cat.description }}</p>{% endif %}
+        <div style="margin-top:1rem;color:var(--accent);font-size:.85rem;font-weight:500">{{ cat.products|length }} produits →</div>
+    </a>
+    {% else %}
+    <p style="color:var(--muted)">Aucune catégorie.</p>
+    {% endfor %}
+</div>
+{% endblock %}

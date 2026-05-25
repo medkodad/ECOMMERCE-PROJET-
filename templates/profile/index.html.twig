@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}Mon Profil{% endblock %}
+{% block body %}
+<div style="max-width:800px;margin:0 auto">
+    <div class="section-header">
+        <h1 class="section-title">Mon Profil</h1>
+    </div>
+    <div class="card" style="padding:2rem;display:flex;align-items:center;gap:2rem">
+        <div style="width:100px;height:100px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700">
+            {{ user.fullName|default(user.email)|slice(0,1)|upper }}
+        </div>
+        <div>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.5rem;margin-bottom:.5rem">{{ user.fullName|default('Utilisateur') }}</h2>
+            <p style="color:var(--muted);margin-bottom:.5rem">{{ user.email }}</p>
+            <span class="badge badge-purple">Membre</span>
+        </div>
+    </div>
+</div>
+{% endblock %}

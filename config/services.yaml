@@ -18,3 +18,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\Cart\CartInterface:
+        alias: App\Service\Cart\SessionCart
+
+    App\Service\Cart\CartHandler:
+        arguments:
+            $cartService: '@App\Service\Cart\SessionCart'

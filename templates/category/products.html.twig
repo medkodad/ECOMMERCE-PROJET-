@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block body %}
+<div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem">
+    <a href="{{ path('categories') }}" style="color:var(--muted);font-size:.9rem">← Catégories</a>
+    <span style="color:var(--border)">/</span>
+    <span style="font-size:.9rem">{{ category.name }}</span>
+</div>
+<div class="section-header">
+    <h1 class="section-title">{{ category.icon ?? '📦' }} {{ category.name }}</h1>
+    <p class="section-subtitle">{{ products|length }} produit(s)</p>
+</div>
+<div class="grid-4">
+    {% for product in products %}
+    <div class="card product-card">
+        <div class="product-img">{{ product.image ? '<img src="'~product.image~'" style="width:100%;height:100%;object-fit:cover">' : '🛍️' }}</div>
+        <div class="product-info">
+            <div class="product-name">{{ product.name }}</div>
+            <div class="product-price">{{ product.price|number_format(2,'.') }} MAD</div>
+        </div>
+        <div class="product-footer">
+            <a href="{{ path('product_show', {id: product.id}) }}" class="btn-outline" style="flex:1;justify-content:center">Voir</a>
+            <form action="{{ path('cart_add', {id: product.id}) }}" method="POST" style="flex:1">
+                <input type="hidden" name="quantity" value="1">
+                <button type="submit" class="btn-primary" style="width:100%;justify-content:center">+ Panier</button>
+            </form>
+        </div>
+    </div>
+    {% else %}
+    <p style="color:var(--muted)">Aucun produit dans cette catégorie.</p>
+    {% endfor %}
+</div>
+{% endblock %}

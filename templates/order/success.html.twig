@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande Confirmée{% endblock %}
+
+{% block body %}
+<div style="max-width:600px;margin:4rem auto;text-align:center">
+    <div class="card" style="padding:3rem">
+        <div style="font-size:4rem;margin-bottom:1rem">🎉</div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;margin-bottom:1rem;color:var(--accent3)">Merci pour votre commande !</h1>
+        <p style="color:var(--muted);font-size:1.1rem;margin-bottom:2rem">
+            Votre commande <strong>{{ order.reference }}</strong> a bien été enregistrée.
+        </p>
+        
+        <div style="background:var(--bg3);padding:1.5rem;border-radius:12px;margin-bottom:2rem;text-align:left">
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;margin-bottom:1rem">Récapitulatif</h3>
+            {% for item in order.orderItems %}
+                <div style="display:flex;justify-content:space-between;margin-bottom:.5rem">
+                    <span>{{ item.quantity }}x {{ item.product.name }}</span>
+                    <span>{{ (item.price * item.quantity)|number_format(2, '.') }} MAD</span>
+                </div>
+            {% endfor %}
+            <hr style="border:none;border-top:1px solid var(--border);margin:1rem 0">
+            <div style="display:flex;justify-content:space-between;font-weight:700;font-size:1.2rem;color:var(--accent)">
+                <span>Total</span>
+                <span>{{ order.total|number_format(2, '.') }} MAD</span>
+            </div>
+        </div>
+
+        <a href="{{ path('home') }}" class="btn-primary" style="padding:.8rem 2rem;font-size:1rem">Retour à l'accueil</a>
+    </div>
+</div>
+{% endblock %}
