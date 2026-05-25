@@ -65,9 +65,6 @@ symfony server:start -d
 
 L'application sera accessible sur : **http://localhost:8000**
 
-## 🔐 Accès Administrateur
-
-Pour accéder au tableau de bord d'administration (`/admin`), vous devez créer un utilisateur admin. Vous pouvez utiliser le script fourni à la racine du projet (s'il existe) ou la commande Symfony habituelle.
 
 ## 🤝 Contribution
 
