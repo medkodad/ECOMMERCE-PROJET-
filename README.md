@@ -74,4 +74,4 @@ Pour accéder au tableau de bord d'administration (`/admin`), vous devez créer 
 Les pull requests sont les bienvenues. Pour les changements majeurs, veuillez ouvrir une issue d'abord pour discuter de ce que vous aimeriez changer.
 
 ---
-*Développé avec ❤️ dans le cadre du projet EHEI.*
+
